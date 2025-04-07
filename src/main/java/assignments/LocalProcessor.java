@@ -20,7 +20,7 @@ public class LocalProcessor {
     private StringBuilder processorName;
     private Long period = 10_000_000_000_000L;
     private StringBuilder processorVersion;
-    private Integer valueofCheap;
+    private Integer valueOfCheap;
     private Scanner informationScanner;
     private List<String> stringArrayList = new LinkedList<>();
 
@@ -29,7 +29,7 @@ public class LocalProcessor {
         this.processorName = processorName;
         this.period = period;
         this.processorVersion = processorVersion;
-        this.valueofCheap = valueOfCheap;
+        this.valueOfCheap = valueOfCheap;
         this.informationScanner = informationScanner;
         this.stringArrayList = stringArrayList;
     }
@@ -41,19 +41,25 @@ public class LocalProcessor {
     @ListIteratorAnnotation
     public void listIterator(List<String> stringList) {
         stringArrayList = new LinkedList<>(stringList);
-        stringArrayList.forEach(s -> System.out.println(s.hashCode())); // Use method reference for clarity
+        try {
+            stringArrayList.forEach(s -> System.out.println(s.hashCode()));
+        } catch (NullPointerException e) {
+            // Log the exception message
+            System.out.println("Caught a NullPointerException: " + e.getMessage());
+            e.printStackTrace();  // Prints the stack trace for debugging
+        }
     }
 
     @FullNameProcessorGeneratorAnnotation
     public String fullnameProcessorGenerator(List<String> stringList) {
-        stringList.forEach(s -> processorName.append(s)); // Using method reference for readability
+        stringList.forEach(s -> processorName.append(s));
         return processorName.toString();
     }
 
     @ReadFullProcessorNameAnnotation
     public void readFullProcessorName(File file) throws IOException {
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            reader.lines().forEach(processorVersion::append); // Efficiently reading the file line-by-line
+            reader.lines().forEach(processorVersion::append);
         }
     }
 }
