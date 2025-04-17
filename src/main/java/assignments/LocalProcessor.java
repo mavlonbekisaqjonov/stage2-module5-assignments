@@ -51,7 +51,10 @@ public class LocalProcessor {
 
     @ListIteratorAnnotation
     public void listIterator(List<String> stringList) {
-        Objects.requireNonNull(stringList, "stringList must not be null");
+        if (stringList == null) {
+            throw new IllegalStateException("Provided list is null");
+        }
+
         List<String> tempList = new LinkedList<>(stringList);
         this.stringArrayList = tempList;
 
@@ -66,8 +69,9 @@ public class LocalProcessor {
 
     @FullNameProcessorGeneratorAnnotation
     public String fullnameProcessorGenerator(List<String> stringList) {
-        Objects.requireNonNull(stringList, "stringList must not be null");
-        Objects.requireNonNull(processorName, "processorName must not be null");
+        if (stringList == null || processorName == null) {
+            throw new IllegalStateException("Input list or processorName is null");
+        }
 
         for (String s : stringList) {
             if (s != null) {
@@ -81,11 +85,13 @@ public class LocalProcessor {
 
     @ReadFullProcessorNameAnnotation
     public void readFullProcessorName(File file) throws IOException {
-        Objects.requireNonNull(file, "file must not be null");
+        if (file == null || processorVersion == null) {
+            throw new IllegalStateException("File or processorVersion is null");
+        }
+
         if (!file.exists()) {
             throw new FileNotFoundException("File not found: " + file.getAbsolutePath());
         }
-        Objects.requireNonNull(processorVersion, "processorVersion must not be null");
 
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
