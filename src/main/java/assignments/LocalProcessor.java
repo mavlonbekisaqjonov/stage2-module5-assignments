@@ -69,8 +69,11 @@ public class LocalProcessor {
 
     @FullNameProcessorGeneratorAnnotation
     public String fullnameProcessorGenerator(List<String> stringList) {
-        if (stringList == null || processorName == null) {
-            throw new IllegalStateException("Input list or processorName is null");
+        if (stringList == null) {
+            throw new IllegalStateException("Input list is null");
+        }
+        if (processorName == null) {
+            throw new IllegalStateException("processorName is null");
         }
 
         for (String s : stringList) {
@@ -85,8 +88,11 @@ public class LocalProcessor {
 
     @ReadFullProcessorNameAnnotation
     public void readFullProcessorName(File file) throws IOException {
-        if (file == null || processorVersion == null) {
-            throw new IllegalStateException("File or processorVersion is null");
+        if (file == null) {
+            throw new IllegalStateException("File is null");
+        }
+        if (processorVersion == null) {
+            throw new IllegalStateException("processorVersion is null");
         }
 
         if (!file.exists()) {
